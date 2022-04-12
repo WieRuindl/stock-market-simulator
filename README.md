@@ -9,6 +9,6 @@ curl -X POST localhost:8080/create-order -H "Content-type:application/json" -d "
 #### POSTMAN
 see postman-example.JPG
 
-### Receiving WebSocket messages
+### Receiving Trades info by WebSocket messages
 #### HTML client
 open resources\index.html file in browser and connect to the default host (many thanks to https://github.com/thegeekyasian/WebSocket-SpringBoot)
