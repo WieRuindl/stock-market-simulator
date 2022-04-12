@@ -1,4 +1,4 @@
-package pw.test.stockmarketsimulator.controller;
+package pw.test.stockmarketsimulator.tradinggateway.rest;
 
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pw.test.stockmarketsimulator.matchingengine.MatchingEngine;
 import pw.test.stockmarketsimulator.order.Order;
 import pw.test.stockmarketsimulator.order.Symbol;
+import pw.test.stockmarketsimulator.tradinggateway.TradingGateway;
 
 import java.util.Arrays;
 import java.util.Optional;

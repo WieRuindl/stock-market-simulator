@@ -1,4 +1,4 @@
-package pw.test.stockmarketsimulator.controller;
+package pw.test.stockmarketsimulator.tradinggateway;
 
 import pw.test.stockmarketsimulator.order.Order;
 
