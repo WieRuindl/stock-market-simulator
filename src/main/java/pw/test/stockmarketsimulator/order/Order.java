@@ -15,11 +15,15 @@ public class Order {
     private final int price;
     private int quantity;
 
-    public enum Type {
-        BUY, SELL
-    }
-
     public void reduceQuantity(int quantityToReduce) {
         quantity -= quantityToReduce;
+    }
+
+    public boolean isFilled() {
+        return quantity == 0;
+    }
+
+    public enum Type {
+        BUY, SELL
     }
 }

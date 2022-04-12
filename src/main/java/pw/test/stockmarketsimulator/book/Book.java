@@ -1,6 +1,5 @@
 package pw.test.stockmarketsimulator.book;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import pw.test.stockmarketsimulator.order.Order;
@@ -18,15 +17,17 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Data
-@AllArgsConstructor
 public class Book {
 
-    private final Symbol symbol;
-
+    private static final Comparator<Order> ORDER_COMPARATOR = (o1, o2) -> {
+        int compare = Integer.compare(o1.getPrice(), o2.getPrice()) * (o1.getType() == Type.SELL ? 1 : -1);
+        return compare != 0 ? compare : Long.compare(o1.getTimestamp(), o2.getTimestamp());
+    };
     final Map<Type, List<Order>> orders = new HashMap<>() {{
         put(Type.BUY, new LinkedList<>());
         put(Type.SELL, new LinkedList<>());
     }};
+    private final Symbol symbol;
 
     public void addOrder(Order order) {
         List<Order> orders = this.orders.get(order.getType());
@@ -82,21 +83,16 @@ public class Book {
 
             removeFilledOrders(Type.BUY);
             removeFilledOrders(Type.SELL);
-        } while(matchingHappened);
+        } while (matchingHappened);
 
         return trades;
     }
 
     private void removeFilledOrders(Type type) {
         List<Order> filledOrders = orders.get(type).stream()
-                .filter(o -> o.getQuantity() == 0)
+                .filter(Order::isFilled)
                 .collect(Collectors.toList());
         orders.get(type).removeAll(filledOrders);
     }
-
-    private static final Comparator<Order> ORDER_COMPARATOR = (o1, o2) -> {
-        int compare = Integer.compare(o1.getPrice(), o2.getPrice()) * (o1.getType() == Type.SELL ? 1 : -1);
-        return compare != 0 ? compare : Long.compare(o1.getTimestamp(), o2.getTimestamp());
-    };
 
 }

@@ -1,6 +1,5 @@
 package pw.test.stockmarketsimulator.clientsnotifier.websocket;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +8,6 @@ import java.io.IOException;
 
 @Slf4j
 @Data
-@AllArgsConstructor
 public class WebSocketClient {
 
     private final Session session;

@@ -23,10 +23,11 @@ import java.util.stream.Collectors;
 @Component
 public class MatchingEngine {
 
-    private final TradeLedger tradeLedger;
+    private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(1);
     private final Map<Symbol, Book> books = Arrays.stream(Symbol.values())
             .map(Book::new)
             .collect(Collectors.toMap(Book::getSymbol, b -> b));
+    private final TradeLedger tradeLedger;
 
     @Autowired
     public MatchingEngine(TradeLedger tradeLedger) {
@@ -48,7 +49,6 @@ public class MatchingEngine {
 
         String message = String.format("Order %s is created", order);
         log.info(message);
-
         return message;
     }
 
@@ -61,15 +61,19 @@ public class MatchingEngine {
                 break;
             }
         }
+
         log.info(message);
         return message;
     }
 
-    public String getOrders(Symbol symbol) {
-        Optional<Book> book = books.values().stream().filter(b -> b.getSymbol().equals(symbol)).findFirst();
-        return book.isPresent() ? book.get().toString() : "no book for symbol " + symbol;
-    }
+    public String getOrders(String symbol) {
+        Optional<Book> book = books.values().stream()
+                .filter(b -> b.getSymbol().toString().equals(symbol))
+                .findFirst();
 
-    private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(1);
+        String message = (book.isPresent() ? book.get().toString() : "No book found for symbol ") + symbol;
+        log.info(message);
+        return message;
+    }
 
 }

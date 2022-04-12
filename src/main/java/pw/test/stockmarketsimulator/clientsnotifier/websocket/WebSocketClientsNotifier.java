@@ -21,7 +21,8 @@ public class WebSocketClientsNotifier implements ClientsNotifier {
 
     @OnOpen
     public void onOpen(Session session) {
-        WEB_SOCKET_CLIENTS.add(new WebSocketClient(session));
+        WebSocketClient client = new WebSocketClient(session);
+        WEB_SOCKET_CLIENTS.add(client);
         log.info(String.format("New session %s connected! Connected clients: %s", session.getId(), WEB_SOCKET_CLIENTS.size()));
     }
 

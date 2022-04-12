@@ -1,7 +1,6 @@
 package pw.test.stockmarketsimulator.tradinggateway.rest;
 
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,11 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pw.test.stockmarketsimulator.matchingengine.MatchingEngine;
 import pw.test.stockmarketsimulator.order.Order;
-import pw.test.stockmarketsimulator.order.Symbol;
 import pw.test.stockmarketsimulator.tradinggateway.TradingGateway;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -35,12 +30,7 @@ public class RestTradingGateway implements TradingGateway {
 
     @RequestMapping(value = "/get-orders", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String getOrders(@RequestBody String symbol) {
-        Optional<Symbol> symbolOptional = Arrays.stream(Symbol.values())
-                .filter(s -> s.toString().equalsIgnoreCase(symbol))
-                .findFirst();
-        return symbolOptional.isPresent() ?
-                matchingEngine.getOrders(symbolOptional.get())
-                : Strings.EMPTY;
+        return matchingEngine.getOrders(symbol);
     }
 
 }
